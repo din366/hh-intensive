@@ -1,3 +1,4 @@
+import {init, renderCards, getData} from './card.js';
 // Выпадающие списки
 
 const optionBtnOrder = document.querySelector('.option__btn_order');
@@ -90,3 +91,25 @@ overlayVacancy.addEventListener('click', (e) => {
   if (e.target === overlayVacancy || target.classList.contains('modal__close'))
     overlayVacancy.classList.remove('overlay_active');
 });
+
+const formSearch = document.querySelector('.bottom__search');
+
+formSearch.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const textSearch = formSearch.search.value;
+
+  if (textSearch.length > 2) {
+    formSearch.search.style.borderColor = '';
+
+    const data = await getData({search: textSearch});
+    renderCards(data);
+    formSearch.reset();
+  } else {
+    formSearch.search.style.borderColor = 'red';
+    setTimeout(() => {
+      formSearch.search.style.borderColor = '';
+    }, 2000);
+  }
+});
+
+init();
