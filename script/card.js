@@ -1,3 +1,14 @@
+export const getData = ({search, id} = {}) => {
+  if (search) {
+    return fetch(`http://localhost:3000/api/vacancy?search=${search}`).then(
+      (response) => response.json(),
+    );
+  }
+  return fetch(`http://localhost:3000/api/vacancy/${id ? id : ''}`).then(
+    (response) => response.json(),
+  );
+};
+
 const createCard = (vacancy) => {
   const {
     title,
@@ -46,17 +57,6 @@ export const renderCards = (data) => {
 
   const cards = data.map(createCard);
   resultList.append(...cards);
-};
-
-export const getData = ({search} = {}) => {
-  if (search) {
-    return fetch(`http://localhost:3000/api/vacancy?search=${search}`).then(
-      (response) => response.json(),
-    );
-  }
-  return fetch('http://localhost:3000/api/vacancy').then((response) =>
-    response.json(),
-  );
 };
 
 export const init = async () => {
